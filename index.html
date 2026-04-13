@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pokémon Spelling Battle: Pinyin Edition</title>
+    <style>
+        :root {
+            --p1-color: #3498db;
+            --p2-color: #e74c3c;
+            --bg-color: #121212;
+            --panel-bg: rgba(255, 255, 255, 0.05);
+        }
+        body {
+            margin: 0; padding: 0; overflow: hidden;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            background: var(--bg-color); color: white;
+            user-select: none; touch-action: none;
+        }
+
+        /* --- Screens --- */
+        #game-screen, #select-screen { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; }
+        
+        #start-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.95);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100; text-align: center;
+        }
+
+        /* --- Global UI --- */
+        h1 { font-size: 50px; color: #f1c40f; -webkit-text-stroke: 1.5px #3498db; margin-bottom: 10px; }
+        .std-btn { padding: 20px 60px; font-size: 25px; background: #2ecc71; color: white; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 6px #27ae60; text-transform: uppercase; }
+        .std-btn:active { transform: translateY(3px); box-shadow: 0 3px #27ae60; }
+
+        /* --- Character Selection Screen --- */
+        #select-screen {
+            background: radial-gradient(circle, #2c3e50 0%, #1a1a1a 100%);
+            display: none; /* Flex when active */
+            flex-direction: column; align-items: center; justify-content: start;
+            padding-top: 30px;
+        }
+        #selection-title { font-size: 32px; color: #f1c40f; margin-bottom: 20px; }
+        .player-turn-indicator { padding: 10px 30px; border-radius: 10px; font-size: 24px; margin-bottom: 20px; text-transform: uppercase; }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 90%;
+            max-width: 800px;
+        }
+        .pokemon-card {
+            background: var(--panel-bg);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s ease-out;
+        }
+        .pokemon-card:hover { transform: translateY(-5px); }
+        .pokemon-card.selected { opacity: 0.3; pointer-events: none; border-color: #555; }
+        
+        /* Highlighting who is choosing */
+        .p1-selecting .pokemon-card:not(.selected):hover { border-color: var(--p1-color); box-shadow: 0 0 15px var(--p1-color); }
+        .p2-selecting .pokemon-card:not(.selected):hover { border-color: var(--p2-color); box-shadow: 0 0 15px var(--p2-color); }
+
+        .pokemon-card img { width: 100%; height: auto; max-height: 100px; object-fit: contain; }
+        .pokemon-card .name { font-size: 16px; margin-top: 5px; color: #ddd; text-transform: capitalize; }
+
+        /* --- Main Game Screen --- */
+        #game-screen { display: none; } /* Flex when active */
+        .player-side { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: start; position: relative; padding: 20px; border: 5px solid; }
+        #p1 { border-color: var(--p1-color); background: radial-gradient(#2980b9, #1a1a1a); }
+        #p2 { border-color: var(--p2-color); background: radial-gradient(#c0392b, #1a1a1a); }
+        
+        .score-board { font-size: 28px; font-weight: bold; background: rgba(0,0,0,0.5); padding: 10px 20px; border-radius: 20px; }
+        
+        .pokemon-display { margin: 20px 0; text-align: center; }
+        .pokemon-img { max
